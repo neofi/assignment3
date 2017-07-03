@@ -1,0 +1,15 @@
+
+
+The script run_analysis.R performs the 5 steps described in the course project's definition.
+
+Source of data that used: 
+
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+
+Variables
+
+- x_train, y_train, x_test, y_test, subject_train and subject_test are the tables included in the above source data link 
+- trainingdata binds the following tables y_train ,x_train, subject_train
+- testdata binds the following tables y_test, x_test, subject_test
+- dataset binds trainingdata,testdata tables
+- dataset<-rbind(trainingdata,testdata)
