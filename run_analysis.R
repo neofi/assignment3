@@ -1,7 +1,7 @@
 ## Getting and Cleaning Data Course Project 
 
-##1. Merge the training and test sets to create one data set 
-# Read Tables 
+## 1. Merge the training and test sets to create one data set 
+# Read Tables included in the following link https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 x_train <- read.table("train/X_train.txt")
 y_train <- read.table("train/y_train.txt")
 subject_train <- read.table("train/subject_train.txt")
@@ -21,13 +21,13 @@ testdata<-cbind(y_test,x_test, subject_test)
 
 dataset<-rbind(trainingdata,testdata)
 
-##2. Extract only the measurements on the mean and standard deviation for each measurement
+## 2. Extract only the measurements on the mean and standard deviation for each measurement
 
-# Read Features Table 
+# Read Features Table which inlcudes mean and standard deviation column names 
 
 features <-read.table("features.txt")
 
-# Columns with mean or std in their names
+# Columns with mean or std in their names in any rows in column 2 
 
 mean_and_Std_features<-grep("-(mean|std)\\(\\)",features[,2])
 
@@ -38,11 +38,13 @@ xdata<-rbind(x_train,x_test)
 
 xdata<-xdata[,mean_and_Std_features]
 
+# Add column names into the new dataframe xdata
+
 names(xdata)<-features[mean_and_Std_features,2]
 
 ##3. Use descriptive activity names to name the activities in the data set 
 
-# Read Activity_Labels Table 
+# Read Activity_Labels Table which contains full activity names 
 
 activities<-read.table("activity_labels.txt")
 
@@ -51,7 +53,13 @@ activities<-read.table("activity_labels.txt")
 
 ydata<-rbind(y_train,y_test)
 
-ydata[,1]<-activities[ydata[,1],2]
+# Replace activity numbers in ydata to descriptive activity names in ydata table
+
+activityname<-activities[ydata[,1],2]
+
+ydata[,1]<-activityname
+
+# Give column name activity to the updated ydata 
 
 names(ydata)<-"activity"
 
@@ -73,7 +81,7 @@ updated_dataset<-cbind(xdata,ydata, subjectdata)
 
 install.packages(plyr)
 
-ibrary(plyr)
+library(plyr)
 
 updated_Dataset_Averages <- ddply(updated_dataset, .(subject, activity), function(x) colMeans(x[, 1:66]))
 
